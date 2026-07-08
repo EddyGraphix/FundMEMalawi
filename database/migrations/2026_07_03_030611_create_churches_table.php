@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('churches', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('organization_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('pastor_id')->constrained('users');
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('denomination')->nullable();
+            $table->string('city')->nullable();
+            $table->string('district')->nullable();
+            $table->text('description')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('churches');
+    }
+};
